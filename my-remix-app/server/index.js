@@ -40,24 +40,6 @@ let server = http.createServer(async (req, res) => {
 
 server.listen(process.env.PORT || 3000);
 
-// app.use(express.static("public/build", { immutable: true, maxAge: "1y" }));
-
-// app.all(
-//   "*",
-//   MODE === "production"
-//     ? createRequestHandler({ build: require("./build") })
-//     : (req, res, next) => {
-//         purgeRequireCache();
-//         let build = require("./build");
-//         return createRequestHandler({ build, mode: MODE })(req, res, next);
-//       }
-// );
-
-// let port = process.env.PORT || 3000;
-// app.listen(port, () => {
-//   console.log(`Express server listening on port ${port}`);
-// });
-
 ////////////////////////////////////////////////////////////////////////////////
 function purgeRequireCache() {
   // purge require cache on requests for "server side HMR" this won't let
