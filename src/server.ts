@@ -15,7 +15,6 @@ import {
   Request as NodeRequest,
   formatServerError,
 } from "@remix-run/node";
-import { URL } from "url";
 
 /**
  * A function that returns the value to use as `context` in route `loader` and

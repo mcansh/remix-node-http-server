@@ -1,8 +1,10 @@
 {
-  "name": "remix-raw-http",
+  "name": "@mcansh/remix-raw-http",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "sideEffects": false,
   "scripts": {
     "build": "tsc"
   },

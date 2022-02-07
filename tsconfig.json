@@ -1,5 +1,6 @@
 {
   "include": ["src/**/*.ts"],
+  "exclude": ["my-remix-app"],
   "compilerOptions": {
     "lib": ["ES2019", "DOM.Iterable"],
     "target": "ES2019",
@@ -12,7 +13,6 @@
     "declaration": true,
 
     "outDir": "dist",
-    "rootDir": ".",
-    "skipDefaultLibCheck": true
+    "skipLibCheck": true
   }
 }

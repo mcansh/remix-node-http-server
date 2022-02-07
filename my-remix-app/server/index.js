@@ -3,7 +3,8 @@ const path = require("path");
 const fs = require("fs/promises");
 const { constants } = require("fs");
 
-const { createRequestHandler } = require("../../dist/src");
+const mime = require("mime-types");
+const { createRequestHandler } = require("@mcansh/remix-raw-http");
 
 async function checkFileExists(filepath) {
   try {
@@ -18,6 +19,7 @@ async function serveFile(req, res) {
   const filePath = path.join(process.cwd(), "public", req.url);
   const fileExists = await checkFileExists(filePath);
   if (!fileExists) return undefined;
+  res.setHeader("Content-Type", mime.lookup(filePath));
   return await fs.readFile(filePath, "utf-8");
 }
 
@@ -26,11 +28,13 @@ const BUILD_DIR = path.join(process.cwd(), "server/build");
 
 let server = http.createServer(async (req, res) => {
   try {
+    if (MODE === "production") {
+      purgeRequireCache();
+    }
     let file = await serveFile(req, res);
     if (file) {
       return res.end(file);
     }
-    purgeRequireCache();
     let build = require("./build");
     createRequestHandler({ build, mode: MODE })(req, res);
   } catch (error) {
@@ -38,7 +42,11 @@ let server = http.createServer(async (req, res) => {
   }
 });
 
-server.listen(process.env.PORT || 3000);
+let port = process.env.PORT || 3000;
+
+server.listen(port, () => {
+  console.log(`Server listening on port ${port}`);
+});
 
 ////////////////////////////////////////////////////////////////////////////////
 function purgeRequireCache() {
