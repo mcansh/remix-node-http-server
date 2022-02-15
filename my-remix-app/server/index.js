@@ -28,7 +28,7 @@ const BUILD_DIR = path.join(process.cwd(), "server/build");
 
 let server = http.createServer(async (req, res) => {
   try {
-    if (MODE === "production") {
+    if (MODE !== "production") {
       purgeRequireCache();
     }
     let file = await serveFile(req, res);
