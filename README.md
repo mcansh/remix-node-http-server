@@ -10,4 +10,6 @@ yarn add @mcansh/remix-raw-http
 pnpm i @mcansh/remix-raw-http
 ```
 
-example usage: https://github.com/mcansh/remix-node-http-server/blob/main/exmaple/server/index.js
+## Example usage
+
+See https://github.com/mcansh/remix-node-http-server/blob/main/example/server/index.js
