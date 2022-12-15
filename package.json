@@ -1,22 +1,26 @@
 {
   "name": "@mcansh/remix-raw-http",
   "version": "1.0.0",
-  "description": "",
+  "description": "Node HTTP server request handler for Remix using http.createServer",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "sideEffects": false,
   "scripts": {
     "build": "tsc"
   },
-  "keywords": [],
   "author": "Logan McAnsh <logan@mcan.sh> (https://mcan.sh/)",
   "license": "MIT",
   "devDependencies": {
-    "@types/node": "17.0.16",
-    "typescript": "4.5.5"
+    "@types/node": "^18.11.15",
+    "typescript": "^4.5.5"
   },
   "dependencies": {
-    "@remix-run/node": "1.1.3",
-    "@remix-run/server-runtime": "1.1.3"
-  }
+    "@remix-run/node": "^1.8.0",
+    "@remix-run/server-runtime": "^1.8.0"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "package.json"
+  ]
 }
