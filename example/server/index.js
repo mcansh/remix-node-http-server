@@ -2,7 +2,6 @@ const http = require("http");
 const path = require("path");
 const fs = require("fs/promises");
 const { constants } = require("fs");
-
 const mime = require("mime-types");
 const { createRequestHandler } = require("@mcansh/remix-raw-http");
 
@@ -16,8 +15,8 @@ async function checkFileExists(filepath) {
 }
 
 async function serveFile(req, res) {
-  const filePath = path.join(process.cwd(), "public", req.url);
-  const fileExists = await checkFileExists(filePath);
+  let filePath = path.join(process.cwd(), "public", req.url);
+  let fileExists = await checkFileExists(filePath);
   if (!fileExists) return undefined;
   res.setHeader("Content-Type", mime.lookup(filePath));
   return await fs.readFile(filePath, "utf-8");

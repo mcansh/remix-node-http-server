@@ -1,4 +1,4 @@
-import { useCatch, Link, json, useLoaderData, Outlet } from "remix";
+import { Outlet, Link } from "@remix-run/react";
 
 export function meta() {
   return { title: "Boundaries Demo" };

@@ -1,4 +1,4 @@
-import http from "http";
+import type http from "http";
 import { PassThrough } from "stream";
 import type {
   AppLoadContext,
@@ -69,7 +69,7 @@ function createRemixHeader(
   for (let [key, values] of Object.entries(requestHeaders)) {
     if (values) {
       if (Array.isArray(values)) {
-        for (const value of values) {
+        for (let value of values) {
           headers.append(key, value);
         }
       } else {

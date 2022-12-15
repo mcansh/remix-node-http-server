@@ -1,26 +1,17 @@
 {
-  "name": "@mcansh/remix-raw-http",
-  "version": "0.1.0",
-  "description": "Node HTTP server request handler for Remix using http.createServer",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "sideEffects": false,
-  "scripts": {
-    "build": "tsc"
-  },
-  "author": "Logan McAnsh <logan@mcan.sh> (https://mcan.sh/)",
+  "private": true,
+  "repository": "mcansh/remix-node-http-server",
   "license": "MIT",
-  "devDependencies": {
-    "@types/node": "^18.11.15",
-    "typescript": "^4.5.5"
+  "scripts": {
+    "lint": "eslint --cache --ignore-path .gitignore --fix .",
+    "format": "prettier --write --ignore-path .gitignore ."
   },
   "dependencies": {
-    "@remix-run/node": "^1.8.0",
-    "@remix-run/server-runtime": "^1.8.0"
-  },
-  "files": [
-    "dist",
-    "README.md",
-    "package.json"
-  ]
+    "@remix-run/eslint-config": "^1.8.2",
+    "@types/node": "^18.11.15",
+    "eslint": "^8.29.0",
+    "eslint-plugin-prefer-let": "^3.0.1",
+    "prettier": "^2.8.0",
+    "typescript": "^4.9.4"
+  }
 }
