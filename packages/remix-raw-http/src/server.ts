@@ -1,19 +1,15 @@
 import type http from "http";
-import { PassThrough } from "stream";
-import type {
-  AppLoadContext,
-  ServerBuild,
-  ServerPlatform,
-} from "@remix-run/server-runtime";
+import { PassThrough, Writable } from "stream";
+import type { AppLoadContext, ServerBuild } from "@remix-run/server-runtime";
 import { createRequestHandler as createRemixRequestHandler } from "@remix-run/server-runtime";
 import type {
   RequestInit as NodeRequestInit,
   Response as NodeResponse,
 } from "@remix-run/node";
+import { writeReadableStreamToWritable } from "@remix-run/node";
 import {
   Headers as NodeHeaders,
   Request as NodeRequest,
-  formatServerError,
 } from "@remix-run/node";
 
 /**
@@ -42,8 +38,7 @@ export function createRequestHandler({
   getLoadContext?: GetLoadContextFunction;
   mode?: string;
 }) {
-  let platform: ServerPlatform = { formatServerError };
-  let handleRequest = createRemixRequestHandler(build, platform, mode);
+  let handleRequest = createRemixRequestHandler(build, mode);
 
   return async (req: http.IncomingMessage, res: http.ServerResponse) => {
     let request = createRemixRequest(req);
@@ -98,18 +93,30 @@ export function createRemixRequest(req: http.IncomingMessage): NodeRequest {
   return new NodeRequest(url.toString(), init);
 }
 
-function sendRemixResponse(res: http.ServerResponse, response: NodeResponse) {
-  res.statusCode = response.status;
+async function sendRemixResponse(
+  response: http.ServerResponse,
+  nodeResponse: NodeResponse
+) {
+  response.statusCode = nodeResponse.status;
 
-  for (let [key, values] of Object.entries(response.headers.raw())) {
-    res.setHeader(key, values);
+  for (let [key, values] of Object.entries(nodeResponse.headers.raw())) {
+    response.setHeader(key, values);
   }
 
-  if (Buffer.isBuffer(response.body)) {
-    res.end(response.body);
-  } else if (response.body?.pipe) {
-    response.body.pipe(res);
+  if (nodeResponse.body) {
+    let chunks: Buffer[] = [];
+    await writeReadableStreamToWritable(
+      nodeResponse.body,
+      new Writable({
+        write(chunk, _encoding, callback) {
+          chunks.push(chunk);
+          callback();
+        },
+      })
+    );
+
+    response.end(Buffer.concat(chunks));
   } else {
-    res.end();
+    response.end();
   }
 }
