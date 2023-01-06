@@ -52,7 +52,7 @@ export function createRequestHandler({
       loadContext
     )) as unknown as NodeResponse;
 
-    sendRemixResponse(res, response);
+    return sendRemixResponse(res, response);
   };
 }
 
