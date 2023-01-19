@@ -2,14 +2,17 @@ const http = require("http");
 const path = require("path");
 const fs = require("fs/promises");
 const { constants } = require("fs");
-const mime = require("mime-types");
 const { createRequestHandler } = require("@mcansh/remix-raw-http");
+const send = require("@fastify/send");
+
+const MODE = process.env.NODE_ENV;
+const BUILD_DIR = path.join(process.cwd(), "server/build");
 
 async function checkFileExists(filepath) {
   try {
     let file = await fs.stat(filepath, constants.F_OK);
     return file.isFile();
-  } catch (error) {
+  } catch {
     return false;
   }
 }
@@ -18,21 +21,21 @@ async function serveFile(req, res) {
   let filePath = path.join(process.cwd(), "public", req.url);
   let fileExists = await checkFileExists(filePath);
   if (!fileExists) return undefined;
-  res.setHeader("Content-Type", mime.lookup(filePath));
-  return await fs.readFile(filePath, "utf-8");
+  let isBuildAsset = req.url.startsWith("/build");
+  return send(req, filePath, {
+    immutable: MODE === "production" && isBuildAsset,
+    maxAge: MODE === "production" && isBuildAsset ? "1y" : 0,
+  });
 }
-
-const MODE = process.env.NODE_ENV;
-const BUILD_DIR = path.join(process.cwd(), "server/build");
 
 let server = http.createServer(async (req, res) => {
   try {
     if (MODE !== "production") {
       purgeRequireCache();
     }
-    let file = await serveFile(req, res);
-    if (file) {
-      return res.end(file);
+    let fileStream = await serveFile(req, res);
+    if (fileStream) {
+      return fileStream.pipe(res);
     }
     let build = require("./build");
     createRequestHandler({ build, mode: MODE })(req, res);
