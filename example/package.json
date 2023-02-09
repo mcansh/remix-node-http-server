@@ -28,6 +28,5 @@
   "engines": {
     "node": ">=14"
   },
-  "sideEffects": false,
-  "version": null
+  "sideEffects": false
 }
