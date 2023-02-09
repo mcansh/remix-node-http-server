@@ -40,6 +40,10 @@ export let loader: LoaderFunction = () => {
         to: "demos/params",
         name: "URL Params and Error Boundaries",
       },
+      {
+        to: "demos/defer",
+        name: "Deferred / Streaming",
+      },
     ],
   };
 
