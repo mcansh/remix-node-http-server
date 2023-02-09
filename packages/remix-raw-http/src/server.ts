@@ -1,15 +1,15 @@
-import type http from "http";
-import { PassThrough, Writable } from "stream";
+import type http from "node:http";
+import { PassThrough } from "node:stream";
 import type { AppLoadContext, ServerBuild } from "@remix-run/server-runtime";
 import { createRequestHandler as createRemixRequestHandler } from "@remix-run/server-runtime";
 import type {
   RequestInit as NodeRequestInit,
   Response as NodeResponse,
 } from "@remix-run/node";
-import { writeReadableStreamToWritable } from "@remix-run/node";
 import {
   Headers as NodeHeaders,
   Request as NodeRequest,
+  writeReadableStreamToWritable,
 } from "@remix-run/node";
 
 /**
@@ -79,7 +79,7 @@ function createRemixHeader(
 export function createRemixRequest(req: http.IncomingMessage): NodeRequest {
   let protocol = "http";
   let host = req.headers.host;
-  let url = new URL(req.url!, `${protocol}://${host}`);
+  let url = `${protocol}://${host}${req.url}`;
 
   let init: NodeRequestInit = {
     method: req.method,
@@ -104,18 +104,7 @@ async function sendRemixResponse(
   }
 
   if (nodeResponse.body) {
-    let chunks: Buffer[] = [];
-    await writeReadableStreamToWritable(
-      nodeResponse.body,
-      new Writable({
-        write(chunk, _encoding, callback) {
-          chunks.push(chunk);
-          callback();
-        },
-      })
-    );
-
-    response.end(Buffer.concat(chunks));
+    await writeReadableStreamToWritable(nodeResponse.body, response);
   } else {
     response.end();
   }
