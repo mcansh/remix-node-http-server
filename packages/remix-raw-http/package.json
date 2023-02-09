@@ -1,6 +1,6 @@
 {
   "name": "@mcansh/remix-raw-http",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Node HTTP server request handler for Remix using http.createServer",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
