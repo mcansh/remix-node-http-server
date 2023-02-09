@@ -6,7 +6,6 @@ const { createRequestHandler } = require("@mcansh/remix-raw-http");
 const send = require("@fastify/send");
 
 const MODE = process.env.NODE_ENV;
-const BUILD_DIR = path.join(process.cwd(), "server/build");
 
 async function checkFileExists(filepath) {
   try {
@@ -30,13 +29,8 @@ async function serveFile(req, res) {
 
 let server = http.createServer(async (req, res) => {
   try {
-    if (MODE !== "production") {
-      purgeRequireCache();
-    }
     let fileStream = await serveFile(req, res);
-    if (fileStream) {
-      return fileStream.pipe(res);
-    }
+    if (fileStream) return fileStream.pipe(res);
     let build = require("./build");
     createRequestHandler({ build, mode: MODE })(req, res);
   } catch (error) {
@@ -44,22 +38,8 @@ let server = http.createServer(async (req, res) => {
   }
 });
 
-let port = process.env.PORT || 3000;
+let port = Number(process.env.PORT) || 3000;
 
 server.listen(port, () => {
-  console.log(`Server listening on port ${port}`);
+  console.log(`✅ app ready: http://localhost:${port}`);
 });
-
-////////////////////////////////////////////////////////////////////////////////
-function purgeRequireCache() {
-  // purge require cache on requests for "server side HMR" this won't let
-  // you have in-memory objects between requests in development,
-  // alternatively you can set up nodemon/pm2-dev to restart the server on
-  // file changes, we prefer the DX of this though, so we've included it
-  // for you by default
-  for (let key in require.cache) {
-    if (key.startsWith(BUILD_DIR)) {
-      delete require.cache[key];
-    }
-  }
-}

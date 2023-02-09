@@ -1,10 +1,13 @@
 /**
- * @type {import('@remix-run/dev/config').AppConfig}
+ * @type {import('@remix-run/dev').AppConfig}
  */
 module.exports = {
   appDirectory: "app",
-  browserBuildDirectory: "public/build",
+  serverBuildDirectory: "build",
+  assetsBuildDirectory: "public/build",
   publicPath: "/build/",
-  serverBuildDirectory: "server/build",
   devServerPort: 9002,
+  future: {
+    unstable_dev: true,
+  },
 };
