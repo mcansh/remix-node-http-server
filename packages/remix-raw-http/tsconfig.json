@@ -2,8 +2,8 @@
   "include": ["src/**/*.ts"],
   "exclude": ["my-remix-app"],
   "compilerOptions": {
-    "lib": ["ES2019", "DOM.Iterable"],
-    "target": "ES2019",
+    "lib": ["ES2022", "DOM.Iterable", "DOM"],
+    "target": "ES2022",
     "module": "CommonJS",
 
     "moduleResolution": "node",
@@ -11,6 +11,8 @@
     "strict": true,
 
     "declaration": true,
+    "emitDeclarationOnly": true,
+    "forceConsistentCasingInFileNames": true,
 
     "outDir": "dist",
     "skipLibCheck": true
