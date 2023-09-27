@@ -1,6 +1,6 @@
 {
   "name": "@mcansh/remix-raw-http",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Node HTTP server request handler for Remix using http.createServer",
   "sideEffects": false,
   "type": "module",
