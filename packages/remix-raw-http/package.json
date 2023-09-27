@@ -30,18 +30,20 @@
     "type": "git"
   },
   "scripts": {
-    "build": "tsup && publint"
+    "build": "tsup && publint",
+    "test": "vitest"
   },
   "author": "Logan McAnsh <logan@mcan.sh> (https://mcan.sh/)",
   "license": "MIT",
   "devDependencies": {
+    "@fastify/send": "^2.1.0",
     "@remix-run/node": "^2.0.0",
-    "@remix-run/server-runtime": "^2.0.0",
-    "node-mocks-http": "^1.13.0"
+    "@types/supertest": "^2.0.12",
+    "node-mocks-http": "^1.13.0",
+    "supertest": "^6.3.3"
   },
   "peerDependencies": {
-    "@remix-run/node": "^2.0.0",
-    "@remix-run/server-runtime": "^2.0.0"
+    "@remix-run/node": "^2.0.0"
   },
   "files": [
     "dist",

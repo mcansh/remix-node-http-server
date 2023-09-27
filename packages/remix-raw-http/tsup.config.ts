@@ -1,17 +1,17 @@
 import { defineConfig } from "tsup";
-import type { Options } from "tsup";
 
 export default defineConfig(() => {
-  let options: Options = {
+  return {
     entry: ["src/index.ts"],
     sourcemap: true,
     tsconfig: "./tsconfig.json",
     dts: true,
+    format: ["cjs", "esm"],
     clean: true,
+    cjsInterop: true,
+    splitting: true,
+    platform: "node",
+    skipNodeModulesBundle: true,
+    treeshake: true,
   };
-
-  return [
-    { ...options, format: "cjs" },
-    { ...options, format: "esm" },
-  ];
 });

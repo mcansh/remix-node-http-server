@@ -2,8 +2,11 @@
   "private": true,
   "repository": "mcansh/remix-node-http-server",
   "license": "MIT",
+  "type": "module",
   "scripts": {
-    "build": "pnpm --filter ./packages/* build",
+    "dev": "pnpm run --recursive --parallel dev",
+    "build": "pnpm run --recursive build",
+    "test": "pnpm --filter ./packages/* test --if-present",
     "lint": "eslint --cache --ignore-path .gitignore --fix .",
     "format": "prettier --write --ignore-path .gitignore .",
     "changeset": "changeset",
@@ -20,6 +23,7 @@
     "publint": "^0.2.2",
     "tsup": "^7.2.0",
     "typescript": "^5.2.2",
+    "vite": "^4.4.9",
     "vitest": "^0.34.4"
   }
 }
