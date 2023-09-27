@@ -1,5 +1,11 @@
 # @mcansh/remix-raw-http
 
+## 1.0.0
+
+### Major Changes
+
+- 8260a9c: feat: Remix v2
+
 ## 0.2.1
 
 ### Patch Changes
