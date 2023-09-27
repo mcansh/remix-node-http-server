@@ -2,26 +2,59 @@
   "name": "@mcansh/remix-raw-http",
   "version": "0.2.1",
   "description": "Node HTTP server request handler for Remix using http.createServer",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
   "sideEffects": false,
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "types": "./dist/index.d.cts",
+  "module": "./dist/index.js",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      },
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "default": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    }
+  },
   "repository": {
     "url": "mcansh/remix-node-http-server",
     "directory": "packages/remix-raw-http",
     "type": "git"
   },
   "scripts": {
-    "build": "tsc"
+    "build": "tsup && publint",
+    "test": "vitest"
   },
   "author": "Logan McAnsh <logan@mcan.sh> (https://mcan.sh/)",
   "license": "MIT",
-  "dependencies": {
-    "@remix-run/node": "^1.12.0",
-    "@remix-run/server-runtime": "^1.12.0"
+  "devDependencies": {
+    "@fastify/send": "^2.1.0",
+    "@remix-run/node": "^2.0.1",
+    "@types/supertest": "^2.0.13",
+    "node-mocks-http": "^1.13.0",
+    "supertest": "^6.3.3"
+  },
+  "peerDependencies": {
+    "@remix-run/node": "^2.0.0"
   },
   "files": [
     "dist",
     "README.md",
     "package.json"
-  ]
+  ],
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
 }

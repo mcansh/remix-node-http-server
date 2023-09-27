@@ -1,14 +1,8 @@
 import type http from "node:http";
-import { PassThrough } from "node:stream";
-import type { AppLoadContext, ServerBuild } from "@remix-run/server-runtime";
-import { createRequestHandler as createRemixRequestHandler } from "@remix-run/server-runtime";
-import type {
-  RequestInit as NodeRequestInit,
-  Response as NodeResponse,
-} from "@remix-run/node";
+import type { AppLoadContext, ServerBuild } from "@remix-run/node";
+import { createRequestHandler as createRemixRequestHandler } from "@remix-run/node";
 import {
-  Headers as NodeHeaders,
-  Request as NodeRequest,
+  createReadableStreamFromReadable,
   writeReadableStreamToWritable,
 } from "@remix-run/node";
 
@@ -41,25 +35,17 @@ export function createRequestHandler({
   let handleRequest = createRemixRequestHandler(build, mode);
 
   return async (req: http.IncomingMessage, res: http.ServerResponse) => {
-    let request = createRemixRequest(req);
-    let loadContext =
-      typeof getLoadContext === "function"
-        ? getLoadContext(req, res)
-        : undefined;
-
-    let response = (await handleRequest(
-      request as unknown as http.IncomingMessage,
-      loadContext
-    )) as unknown as NodeResponse;
-
+    let request = createRemixRequest(req, res);
+    let loadContext = getLoadContext?.(req, res);
+    let response = await handleRequest(request, loadContext);
     return sendRemixResponse(res, response);
   };
 }
 
-function createRemixHeader(
-  requestHeaders: http.IncomingHttpHeaders
-): NodeHeaders {
-  let headers = new NodeHeaders();
+export function createRemixHeaders(
+  requestHeaders: http.IncomingHttpHeaders,
+): Headers {
+  let headers = new Headers();
 
   for (let [key, values] of Object.entries(requestHeaders)) {
     if (values) {
@@ -76,36 +62,48 @@ function createRemixHeader(
   return headers;
 }
 
-export function createRemixRequest(req: http.IncomingMessage): NodeRequest {
-  let protocol = "http";
-  let host = req.headers.host;
-  let url = `${protocol}://${host}${req.url}`;
+export function getURL(req: http.IncomingMessage): URL {
+  return new URL(`http://${req.headers.host}${req.url}`);
+}
 
-  let init: NodeRequestInit = {
+export function createRemixRequest(
+  req: http.IncomingMessage,
+  res: http.OutgoingMessage,
+): Request {
+  let url = getURL(req);
+
+  // Abort action/loaders once we can no longer write a response
+  let controller = new AbortController();
+  res.on("close", () => controller.abort());
+
+  let init: RequestInit = {
     method: req.method,
-    headers: createRemixHeader(req.headers),
+    headers: createRemixHeaders(req.headers),
+    signal: controller.signal,
   };
 
   if (req.method !== "GET" && req.method !== "HEAD") {
-    init.body = req.pipe(new PassThrough({ highWaterMark: 16384 }));
+    init.body = createReadableStreamFromReadable(req);
+    (init as { duplex: "half" }).duplex = "half";
   }
 
-  return new NodeRequest(url.toString(), init);
+  return new Request(url.href, init);
 }
 
 async function sendRemixResponse(
-  response: http.ServerResponse,
-  nodeResponse: NodeResponse
+  res: http.ServerResponse,
+  nodeResponse: Response,
 ) {
-  response.statusCode = nodeResponse.status;
+  res.statusCode = nodeResponse.status;
+  res.statusMessage = nodeResponse.statusText;
 
-  for (let [key, values] of Object.entries(nodeResponse.headers.raw())) {
-    response.setHeader(key, values);
+  for (let [key, values] of nodeResponse.headers.entries()) {
+    res.appendHeader(key, values);
   }
 
   if (nodeResponse.body) {
-    await writeReadableStreamToWritable(nodeResponse.body, response);
+    await writeReadableStreamToWritable(nodeResponse.body, res);
   } else {
-    response.end();
+    res.end();
   }
 }
