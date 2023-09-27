@@ -9,31 +9,38 @@ on:
       - "!release-manual"
       - "!release-manual-*"
 
+permissions:
+  id-token: write
+  pull-requests: write
+  contents: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   release:
     name: 🦋 Changesets Release
     if: github.repository == 'mcansh/remix-node-http-server'
     runs-on: ubuntu-latest
+    outputs:
+      published: ${{ steps.changesets.outputs.published }}
     steps:
       - name: ⬇️ Checkout repo
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-
-      - name: 🟧 Setup pnpm
-        uses: pnpm/action-setup@v2
-        with:
-          version: 7
+        uses: actions/checkout@v4
 
       - name: ⎔ Setup node
         uses: actions/setup-node@v3
         with:
-          node-version: 20
-          cache: pnpm
-          registry-url: "https://registry.npmjs.org"
+          node-version-file: ".nvmrc"
 
-      - name: 📥 Install deps
-        run: pnpm install --frozen-lockfile
+      - name: 🟧 Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+          run_install: |
+            - recursive: true
+              args: [--frozen-lockfile, --strict-peer-dependencies]
 
       - name: 🔐 Setup npm auth
         run: |
@@ -56,3 +63,21 @@ jobs:
           createGithubReleases: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+  comment:
+    name: 📝 Comment on issues and pull requests
+    if: github.repository == 'mcansh/remix-node-http-server' && needs.release.outputs.published == 'true'
+    needs: [release]
+    runs-on: ubuntu-latest
+    steps:
+      - name: ⬇️ Checkout repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: 📝 Comment on issues
+        uses: remix-run/release-comment-action@v0.4.1
+        with:
+          DIRECTORY_TO_CHECK: "./packages"
+          PACKAGE_NAME: "@mcansh/remix-raw-http"
