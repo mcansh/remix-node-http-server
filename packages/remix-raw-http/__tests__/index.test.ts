@@ -145,8 +145,6 @@ describe("createRequestHandler", () => {
       let res = await req.get("/");
 
       expect(res.headers["x-time-of-year"]).toBe("most wonderful");
-      console.log({ "SET_COOKIE TEST": res.headers["set-cookie"] });
-
       expect(res.headers["set-cookie"]).toEqual([
         "first=one; Expires=0; Path=/; HttpOnly; Secure; SameSite=Lax",
         "second=two; MaxAge=1209600; Path=/; HttpOnly; Secure; SameSite=Lax",
