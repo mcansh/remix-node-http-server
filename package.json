@@ -15,15 +15,15 @@
   },
   "dependencies": {
     "@changesets/cli": "^2.26.2",
-    "@remix-run/eslint-config": "^2.0.0",
-    "@types/node": "^20.6.2",
-    "eslint": "^8.49.0",
+    "@remix-run/eslint-config": "^2.0.1",
+    "@types/node": "^20.7.0",
+    "eslint": "^8.50.0",
     "eslint-plugin-prefer-let": "^3.0.1",
     "prettier": "^3.0.3",
     "publint": "^0.2.2",
     "tsup": "^7.2.0",
     "typescript": "^5.2.2",
     "vite": "^4.4.9",
-    "vitest": "^0.34.4"
+    "vitest": "^0.34.5"
   }
 }

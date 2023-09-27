@@ -37,8 +37,8 @@
   "license": "MIT",
   "devDependencies": {
     "@fastify/send": "^2.1.0",
-    "@remix-run/node": "^2.0.0",
-    "@types/supertest": "^2.0.12",
+    "@remix-run/node": "^2.0.1",
+    "@types/supertest": "^2.0.13",
     "node-mocks-http": "^1.13.0",
     "supertest": "^6.3.3"
   },
