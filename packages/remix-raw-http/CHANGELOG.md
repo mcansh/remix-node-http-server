@@ -1,5 +1,11 @@
 # @mcansh/remix-raw-http
 
+## 1.0.1
+
+### Patch Changes
+
+- 65c7323: v1.0.0 was taken
+
 ## 1.0.0
 
 ### Major Changes
