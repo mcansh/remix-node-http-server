@@ -91,8 +91,8 @@ importers:
         specifier: ^18.2.25
         version: 18.2.25
       '@types/react-dom':
-        specifier: ^18.2.8
-        version: 18.2.8
+        specifier: ^18.2.13
+        version: 18.2.13
       chokidar:
         specifier: ^3.5.3
         version: 3.5.3
@@ -1649,8 +1649,8 @@ packages:
     resolution: {integrity: sha512-RK/kBbYOQQHLYj9Z95eh7S6t7gq4Ojt/NT8HTk8bWVhA5DaF+5SMnxHKkP4gPNN3wAZkKP+VjAf0ebtYzf+fxg==}
     dev: true
 
-  /@types/react-dom@18.2.8:
-    resolution: {integrity: sha512-bAIvO5lN/U8sPGvs1Xm61rlRHHaq5rp5N3kp9C+NJ/Q41P8iqjkXSu0+/qu8POsjH9pNWb0OYabFez7taP7omw==}
+  /@types/react-dom@18.2.13:
+    resolution: {integrity: sha512-eJIUv7rPP+EC45uNYp/ThhSpE16k22VJUknt5OLoH9tbXoi8bMhwLf5xRuWMywamNbWzhrSmU7IBJfPup1+3fw==}
     dependencies:
       '@types/react': 18.2.25
     dev: true
