@@ -60,8 +60,8 @@ importers:
         specifier: 1.0.1
         version: link:../packages/remix-raw-http
       '@remix-run/css-bundle':
-        specifier: ^2.0.1
-        version: 2.0.1
+        specifier: ^2.2.0
+        version: 2.2.0
       '@remix-run/node':
         specifier: ^2.0.1
         version: 2.0.1(typescript@5.2.2)
@@ -1324,8 +1324,8 @@ packages:
     requiresBuild: true
     optional: true
 
-  /@remix-run/css-bundle@2.0.1:
-    resolution: {integrity: sha512-PDAak97HvrSa6Pu84iN14o8NNitqLeyO0iH9zqWNhrsO2nFELUOzQ/02H/9QWmmIYgVpbUIQxJlp70ZEAV2dyw==}
+  /@remix-run/css-bundle@2.2.0:
+    resolution: {integrity: sha512-PwbtsQx0QpGt93m2nMpdVoH/a7q9amU+vAXF2qtGruRf0PZWSwxc5LYnr9bHlG80SgyixfTeKT93BY/qFpNK+A==}
     engines: {node: '>=18.0.0'}
     dev: false
 
