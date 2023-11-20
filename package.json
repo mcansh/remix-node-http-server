@@ -16,7 +16,7 @@
   "dependencies": {
     "@changesets/cli": "^2.26.2",
     "@manypkg/get-packages": "^2.2.0",
-    "@remix-run/eslint-config": "^2.0.1",
+    "@remix-run/eslint-config": "^2.3.0",
     "@types/node": "^20.8.6",
     "eslint": "^8.51.0",
     "eslint-plugin-prefer-let": "^3.0.1",
