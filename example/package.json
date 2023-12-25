@@ -26,7 +26,7 @@
     "@types/react": "^18.2.45",
     "@types/react-dom": "^18.2.18",
     "chokidar": "^3.5.3",
-    "eslint": "^8.54.0",
+    "eslint": "^8.56.0",
     "typescript": "^5.2.2"
   },
   "engines": {

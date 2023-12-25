@@ -18,7 +18,7 @@
     "@manypkg/get-packages": "^2.2.0",
     "@remix-run/eslint-config": "^2.4.0",
     "@types/node": "^20.8.6",
-    "eslint": "^8.54.0",
+    "eslint": "^8.56.0",
     "eslint-plugin-prefer-let": "^3.0.1",
     "glob": "^10.3.10",
     "prettier": "^3.1.0",
