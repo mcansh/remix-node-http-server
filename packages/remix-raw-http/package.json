@@ -40,7 +40,7 @@
     "@fastify/send": "^2.1.0",
     "@remix-run/node": "^2.4.0",
     "@types/supertest": "^2.0.14",
-    "node-mocks-http": "^1.13.0",
+    "node-mocks-http": "^1.14.1",
     "supertest": "^6.3.3"
   },
   "peerDependencies": {
