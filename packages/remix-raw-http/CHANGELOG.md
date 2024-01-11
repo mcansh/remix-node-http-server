@@ -1,5 +1,11 @@
 # @mcansh/remix-raw-http
 
+## 1.0.2
+
+### Patch Changes
+
+- 4e139d9: bump dependencies to latest versions
+
 ## 1.0.1
 
 ### Patch Changes
