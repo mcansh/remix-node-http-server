@@ -10,7 +10,7 @@
     "lint": "eslint --cache --ignore-path .gitignore --fix .",
     "format": "prettier --write --ignore-path .gitignore .",
     "changeset": "changeset",
-    "changeset:version": "changeset version && node ./scripts/remove-prerelease-changelogs.js",
+    "changeset:version": "changeset version && node ./scripts/remove-prerelease-changelogs.js && pnpm install --lockfile-only",
     "changeset:release": "pnpm run build && changeset publish"
   },
   "dependencies": {
