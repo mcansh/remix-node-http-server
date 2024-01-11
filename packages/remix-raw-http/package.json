@@ -10,18 +10,14 @@
   "exports": {
     "./package.json": "./package.json",
     ".": {
-      "require": {
-        "types": "./dist/index.d.cts",
-        "default": "./dist/index.cjs"
+      "types": {
+        "require": "./dist/index.d.cts",
+        "import": "./dist/index.d.ts",
+        "default": "./dist/index.d.cts"
       },
-      "import": {
-        "types": "./dist/index.d.ts",
-        "default": "./dist/index.js"
-      },
-      "default": {
-        "types": "./dist/index.d.cts",
-        "default": "./dist/index.cjs"
-      }
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.js",
+      "default": "./dist/index.cjs"
     }
   },
   "repository": {
@@ -29,6 +25,21 @@
     "directory": "packages/remix-raw-http",
     "type": "git"
   },
+  "funding": [
+    {
+      "type": "github",
+      "url": "https://github.com/sponsors/mcansh"
+    }
+  ],
+  "keywords": [
+    "remix",
+    "remix-run",
+    "node",
+    "http",
+    "server",
+    "request",
+    "handler"
+  ],
   "scripts": {
     "prepublishOnly": "npm run build",
     "build": "tsup && publint",
@@ -38,9 +49,9 @@
   "license": "MIT",
   "devDependencies": {
     "@fastify/send": "^2.1.0",
-    "@remix-run/node": "^2.4.0",
-    "@types/supertest": "^2.0.14",
-    "node-mocks-http": "^1.13.0",
+    "@remix-run/node": "^2.5.0",
+    "@types/supertest": "^6.0.2",
+    "node-mocks-http": "^1.14.1",
     "supertest": "^6.3.3"
   },
   "peerDependencies": {
