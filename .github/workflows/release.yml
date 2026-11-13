@@ -37,6 +37,7 @@ jobs:
       - name: 🟧 Setup pnpm
         uses: pnpm/action-setup@v3
         with:
+          dest: ~/.ci/setup-pnpm
           version: 8
           run_install: |
             - recursive: true
